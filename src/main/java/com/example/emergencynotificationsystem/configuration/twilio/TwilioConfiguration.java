@@ -1,4 +1,4 @@
-package com.example.emergencynotificationsystem.configuration;
+package com.example.emergencynotificationsystem.configuration.twilio;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

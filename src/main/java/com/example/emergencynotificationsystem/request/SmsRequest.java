@@ -1,16 +1,14 @@
 package com.example.emergencynotificationsystem.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
 
 import javax.validation.constraints.NotBlank;
 
-public class SmsRequest {
-
-    @NotBlank
-    private final String phoneNumber; // destination
-
-    @NotBlank
-    private final String message;
+@Getter
+public class SmsRequest{
+    @NotBlank String phoneNumber;
+    @NotBlank String message;
 
     public SmsRequest(@JsonProperty("phoneNumber") String phoneNumber,
                       @JsonProperty("message") String message) {
@@ -18,19 +16,11 @@ public class SmsRequest {
         this.message = message;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
     @Override
     public String toString() {
         return "SmsRequest{" +
-                "phoneNumber= ..." + '\'' +
-                ", message='" + message + '\'' +
-                '}';
+               "phoneNumber= ..." + '\'' +
+               ", message='" + message + '\'' +
+               '}';
     }
 }

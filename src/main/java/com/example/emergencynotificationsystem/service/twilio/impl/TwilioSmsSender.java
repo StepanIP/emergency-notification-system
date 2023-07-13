@@ -1,6 +1,6 @@
 package com.example.emergencynotificationsystem.service.twilio.impl;
 
-import com.example.emergencynotificationsystem.configuration.TwilioConfiguration;
+import com.example.emergencynotificationsystem.configuration.twilio.TwilioConfiguration;
 import com.example.emergencynotificationsystem.request.SmsRequest;
 import com.example.emergencynotificationsystem.service.twilio.SmsSender;
 import com.twilio.rest.api.v2010.account.Message;

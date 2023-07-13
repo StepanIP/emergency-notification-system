@@ -1,17 +1,17 @@
-package com.example.emergencynotificationsystem.service.twilio;
+package com.example.emergencynotificationsystem.service.twilio.impl;
 
 import com.example.emergencynotificationsystem.request.SmsRequest;
-import com.example.emergencynotificationsystem.service.twilio.impl.TwilioSmsSender;
+import com.example.emergencynotificationsystem.service.twilio.SmsSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 @org.springframework.stereotype.Service
-public class Service {
+public class SmsService {
 
     private final SmsSender smsSender;
 
     @Autowired
-    public Service(@Qualifier("twilio") TwilioSmsSender smsSender) {
+    public SmsService(@Qualifier("twilio") TwilioSmsSender smsSender) {
         this.smsSender = smsSender;
     }
 

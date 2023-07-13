@@ -1,7 +1,8 @@
 package com.example.emergencynotificationsystem.controller;
 
 import com.example.emergencynotificationsystem.request.SmsRequest;
-import com.example.emergencynotificationsystem.service.twilio.Service;
+import com.example.emergencynotificationsystem.service.UserService;
+import com.example.emergencynotificationsystem.service.twilio.impl.SmsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,10 +15,12 @@ import javax.validation.Valid;
 @RequestMapping("api/v1/sms")
 public class Controller {
 
-    private final Service service;
+    UserService userService;
+
+    private final SmsService service;
 
     @Autowired
-    public Controller(Service service) {
+    public Controller(SmsService service) {
         this.service = service;
     }
 

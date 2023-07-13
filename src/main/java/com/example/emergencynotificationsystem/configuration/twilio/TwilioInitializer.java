@@ -1,4 +1,4 @@
-package com.example.emergencynotificationsystem.configuration;
+package com.example.emergencynotificationsystem.configuration.twilio;
 
 import com.twilio.Twilio;
 import org.slf4j.Logger;
