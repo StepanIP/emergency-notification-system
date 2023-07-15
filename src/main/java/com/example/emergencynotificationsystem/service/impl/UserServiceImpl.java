@@ -49,4 +49,9 @@ public class UserServiceImpl implements UserService {
         return users.isEmpty() ? new ArrayList<>() : users;
     }
 
+    @Override
+    public User readByContact(String contact) {
+        return userRepository.findUserByContact(contact);
+    }
+
 }
