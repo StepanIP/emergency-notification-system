@@ -1,6 +1,8 @@
 package com.example.emergencynotificationsystem.model;
 
 import javax.persistence.*;
+
+import lombok.AllArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import lombok.Getter;
@@ -19,7 +21,7 @@ public class User {
             name = "sequence-generator",
             strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
             parameters = {
-                    @org.hibernate.annotations.Parameter(name = "sequence_name", value = "user_sequence"),
+                    @org.hibernate.annotations.Parameter(name = "sequence_name", value = "users_id_seq"),
                     @org.hibernate.annotations.Parameter(name = "initial_value", value = "10"),
                     @org.hibernate.annotations.Parameter(name = "increment_size", value = "1")
             }
