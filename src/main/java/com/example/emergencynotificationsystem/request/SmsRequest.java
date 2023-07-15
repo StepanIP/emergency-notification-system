@@ -4,13 +4,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 @Getter
 public class SmsRequest{
-    @NotBlank String phoneNumber;
+    @NotBlank List<String> phoneNumber;
     @NotBlank String message;
 
-    public SmsRequest(@JsonProperty("phoneNumber") String phoneNumber,
+    public SmsRequest(@JsonProperty("phoneNumber") List<String> phoneNumber,
                       @JsonProperty("message") String message) {
         this.phoneNumber = phoneNumber;
         this.message = message;

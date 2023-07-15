@@ -25,19 +25,20 @@ public class TwilioSmsSender implements SmsSender {
 
     @Override
     public void sendSms(SmsRequest smsRequest) {
-        if (isPhoneNumberValid(smsRequest.getPhoneNumber())) {
-            PhoneNumber to = new PhoneNumber(smsRequest.getPhoneNumber());
-            PhoneNumber from = new PhoneNumber(twilioConfiguration.getPhoneNumber());
-            String message = smsRequest.getMessage();
-            MessageCreator creator = Message.creator(to, from, message);
-            creator.create();
-            LOGGER.info("Send sms {}", smsRequest);
-        } else {
-            throw new IllegalArgumentException(
-                    "Phone number [" + smsRequest.getPhoneNumber() + "] is not a valid number"
-            );
+        for(String phoneNumber : smsRequest.getPhoneNumber()){
+            if (isPhoneNumberValid(phoneNumber)) {
+                PhoneNumber to = new PhoneNumber(phoneNumber);
+                PhoneNumber from = new PhoneNumber(twilioConfiguration.getPhoneNumber());
+                String message = smsRequest.getMessage();
+                MessageCreator creator = Message.creator(to, from, message);
+                creator.create();
+                LOGGER.info("Send sms {}", smsRequest);
+            } else {
+                throw new IllegalArgumentException(
+                        "Phone number [" + smsRequest.getPhoneNumber() + "] is not a valid number"
+                );
+            }
         }
-
     }
 
     private boolean isPhoneNumberValid(String phoneNumber) {
