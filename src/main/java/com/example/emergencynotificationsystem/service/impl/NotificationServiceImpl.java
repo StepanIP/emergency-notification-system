@@ -49,4 +49,9 @@ public class NotificationServiceImpl implements NotificationService {
         List<Notification> users = notificationRepository.findAll();
         return users.isEmpty() ? new ArrayList<>() : users;
     }
+
+    @Override
+    public Notification readByName(String name) {
+        return notificationRepository.findUserByName(name);
+    }
 }

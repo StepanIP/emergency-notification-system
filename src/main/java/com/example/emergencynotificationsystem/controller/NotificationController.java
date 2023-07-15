@@ -1,0 +1,31 @@
+package com.example.emergencynotificationsystem.controller;
+
+import com.example.emergencynotificationsystem.request.NotificationRequest;
+import com.example.emergencynotificationsystem.request.UserRequest;
+import com.example.emergencynotificationsystem.service.NotificationService;
+import com.example.emergencynotificationsystem.transformer.NotificationTransformer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/ENS-Ukraine/notification")
+public class NotificationController {
+
+    @Autowired
+    NotificationService notificationService;
+
+    @PostMapping("/add")
+    public void addUsers(@RequestParam("template") NotificationRequest notificationRequest) {
+        notificationService.create(NotificationTransformer.transformToEntity(notificationRequest));
+    }
+
+    @DeleteMapping("/delete")
+    public void deleteUser(@RequestParam("user") NotificationRequest notificationRequest) {
+        notificationService.delete(notificationService.readByName(notificationRequest.getName()).getId());
+    }
+
+    @DeleteMapping("/edit")
+    public void editUser(@RequestParam("user") NotificationRequest notificationRequest) {
+        notificationService.update(notificationService.readByName(notificationRequest.getName()));
+    }
+}

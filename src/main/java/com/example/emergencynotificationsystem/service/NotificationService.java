@@ -10,4 +10,5 @@ public interface NotificationService {
     Notification update(Notification user);
     void delete(long id);
     List<Notification> getAll();
+    Notification readByName(String name);
 }
