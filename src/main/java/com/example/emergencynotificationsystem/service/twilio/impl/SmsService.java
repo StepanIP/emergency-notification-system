@@ -1,6 +1,6 @@
 package com.example.emergencynotificationsystem.service.twilio.impl;
 
-import com.example.emergencynotificationsystem.request.SmsRequest;
+import com.example.emergencynotificationsystem.request.DataRequest;
 import com.example.emergencynotificationsystem.service.twilio.SmsSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,7 +15,7 @@ public class SmsService {
         this.smsSender = smsSender;
     }
 
-    public void sendSms(SmsRequest smsRequest) {
-        smsSender.sendSms(smsRequest);
+    public void sendSms(DataRequest dataRequest) {
+        smsSender.sendSms(dataRequest);
     }
 }

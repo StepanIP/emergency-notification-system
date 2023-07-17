@@ -7,19 +7,19 @@ import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Getter
-public class SmsRequest{
-    @NotBlank List<String> phoneNumber;
+public class DataRequest {
+    @NotBlank List<String> contacts;
     @NotBlank String message;
 
-    public SmsRequest(@JsonProperty("phoneNumber") List<String> phoneNumber,
-                      @JsonProperty("message") String message) {
-        this.phoneNumber = phoneNumber;
+    public DataRequest(@JsonProperty("phoneNumber") List<String> contacts,
+                       @JsonProperty("message") String message) {
+        this.contacts = contacts;
         this.message = message;
     }
 
     @Override
     public String toString() {
-        return "SmsRequest{" +
+        return "DataRequest{" +
                "phoneNumber= ..." + '\'' +
                ", message='" + message + '\'' +
                '}';

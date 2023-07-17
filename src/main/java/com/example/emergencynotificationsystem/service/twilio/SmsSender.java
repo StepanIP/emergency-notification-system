@@ -1,10 +1,8 @@
 package com.example.emergencynotificationsystem.service.twilio;
 
-import com.example.emergencynotificationsystem.request.SmsRequest;
+import com.example.emergencynotificationsystem.request.DataRequest;
 
 public interface SmsSender {
 
-    void sendSms(SmsRequest smsRequest);
-
-    // or maybe void sendSms(String phoneNumber, String message);
+    void sendMessage(DataRequest dataRequest);
 }
