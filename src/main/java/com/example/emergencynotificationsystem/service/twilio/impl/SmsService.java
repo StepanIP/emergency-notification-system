@@ -16,6 +16,6 @@ public class SmsService {
     }
 
     public void sendSms(DataRequest dataRequest) {
-        smsSender.sendSms(dataRequest);
+        smsSender.sendMessage(dataRequest);
     }
 }

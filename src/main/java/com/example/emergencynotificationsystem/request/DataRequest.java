@@ -4,16 +4,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Getter
 public class DataRequest {
-    @NotBlank List<String> contacts;
+    List<String> contacts;
     @NotBlank String message;
 
-    public DataRequest(@JsonProperty("phoneNumber") List<String> contacts,
+    public DataRequest(@JsonProperty("contacts") String contacts,
                        @JsonProperty("message") String message) {
-        this.contacts = contacts;
+        this.contacts = extractContacts(contacts);
         this.message = message;
     }
 
@@ -23,5 +25,10 @@ public class DataRequest {
                "phoneNumber= ..." + '\'' +
                ", message='" + message + '\'' +
                '}';
+    }
+
+    private List<String> extractContacts(String contacts){
+        String[] contactArray = contacts.split(", ");
+        return new ArrayList<>(Arrays.asList(contactArray));
     }
 }
