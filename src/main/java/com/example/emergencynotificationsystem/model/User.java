@@ -39,4 +39,10 @@ public class User {
     private String surname;
 
     private String contact;
+
+    public User(String name, String surname, String contact) {
+        this.name = name;
+        this.surname = surname;
+        this.contact = contact;
+    }
 }
