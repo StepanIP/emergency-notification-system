@@ -63,7 +63,7 @@ public class NotificationControllerTest extends ControllerTestClass{
 
         when(notificationService.readByName(request.getName())).thenReturn(new Notification());
 
-        mockMvc.perform(delete("/ENS-Ukraine/notification/edit")
+        mockMvc.perform(put("/ENS-Ukraine/notification/edit")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(request)))
                 .andExpect(status().isOk());
