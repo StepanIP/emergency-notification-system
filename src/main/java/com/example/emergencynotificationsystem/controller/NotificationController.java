@@ -15,17 +15,17 @@ public class NotificationController {
     NotificationService notificationService;
 
     @PostMapping("/add")
-    public void addUsers(@RequestParam("template") NotificationRequest notificationRequest) {
+    public void addUsers(@RequestBody NotificationRequest notificationRequest) {
         notificationService.create(NotificationTransformer.transformToEntity(notificationRequest));
     }
 
     @DeleteMapping("/delete")
-    public void deleteUser(@RequestParam("user") NotificationRequest notificationRequest) {
+    public void deleteUser(@RequestBody NotificationRequest notificationRequest) {
         notificationService.delete(notificationService.readByName(notificationRequest.getName()).getId());
     }
 
-    @DeleteMapping("/edit")
-    public void editUser(@RequestParam("user") NotificationRequest notificationRequest) {
+    @PutMapping("/edit")
+    public void editUser(@RequestBody NotificationRequest notificationRequest) {
         notificationService.update(notificationService.readByName(notificationRequest.getName()));
     }
 }

@@ -20,7 +20,7 @@ public class Notification {
             name = "sequence-generator",
             strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
             parameters = {
-                    @org.hibernate.annotations.Parameter(name = "sequence_name", value = "user_sequence"),
+                    @org.hibernate.annotations.Parameter(name = "sequence_name", value = "notifications_id_seq"),
                     @org.hibernate.annotations.Parameter(name = "initial_value", value = "10"),
                     @org.hibernate.annotations.Parameter(name = "increment_size", value = "1")
             }
@@ -33,4 +33,10 @@ public class Notification {
     private String name;
 
     private String message;
+
+    public Notification(String name, String message){
+        this.name=name;
+        this.message=message;
+    }
+
 }
