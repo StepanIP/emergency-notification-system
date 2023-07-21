@@ -16,6 +16,7 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Autowired
     private NotificationRepository notificationRepository;
+
     @Override
     public Notification create(Notification user) {
         if (user != null) {
@@ -40,8 +41,8 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public void delete(long id) {
-        notificationRepository.delete(readById(id));
+    public void delete(Notification user) {
+        notificationRepository.delete(user);
     }
 
     @Override
@@ -52,6 +53,7 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public Notification readByName(String name) {
-        return notificationRepository.findUserByName(name);
+        return notificationRepository.findUserByName(name).orElseThrow(
+                () -> new EntityNotFoundException("Notification with name " + name + " not found"));
     }
 }

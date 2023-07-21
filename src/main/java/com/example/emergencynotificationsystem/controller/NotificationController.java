@@ -21,7 +21,7 @@ public class NotificationController {
 
     @DeleteMapping("/delete")
     public void deleteUser(@RequestBody NotificationRequest notificationRequest) {
-        notificationService.delete(notificationService.readByName(notificationRequest.getName()).getId());
+        notificationService.delete(notificationService.readByName(notificationRequest.getName()));
     }
 
     @PutMapping("/edit")

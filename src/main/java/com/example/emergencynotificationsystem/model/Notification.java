@@ -1,9 +1,8 @@
 package com.example.emergencynotificationsystem.model;
 
 import javax.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.validation.constraints.Pattern;
@@ -12,6 +11,8 @@ import javax.validation.constraints.Pattern;
 @Setter
 @NoArgsConstructor
 @Entity
+@ToString
+@EqualsAndHashCode
 @Table(name = "notifications")
 public class Notification {
     @Id

@@ -53,7 +53,7 @@ public class NotificationControllerTest extends ControllerTestClass{
                         .content(asJsonString(request)))
                 .andExpect(status().isOk());
 
-        verify(notificationService, times(1)).delete(any(Long.class));
+        verify(notificationService, times(1)).delete(any(Notification.class));
     }
 
     @Test
