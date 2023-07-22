@@ -9,6 +9,8 @@ import com.example.emergencynotificationsystem.repository.UserRepository;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
@@ -30,11 +32,11 @@ public class DataBaseConnectionTest {
         int beforeSize = userRepository.findAll().size();
 
         userRepository.save(user);
-        User actual = userRepository.findUserByContact(user.getContact());
+        Optional<User> actual = userRepository.findUserByContact(user.getContact());
 
-        assertEquals(user.getName(), actual.getName());
-        assertEquals(user.getSurname(), actual.getSurname());
-        assertEquals(user.getContact(), actual.getContact());
+        assertEquals(user.getName(), actual.get().getName());
+        assertEquals(user.getSurname(), actual.get().getSurname());
+        assertEquals(user.getContact(), actual.get().getContact());
         assertNotEquals(beforeSize, userRepository.findAll().size());
     }
 

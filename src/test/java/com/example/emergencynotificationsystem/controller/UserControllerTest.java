@@ -67,7 +67,7 @@ public class UserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
-        verify(userService, times(1)).delete(any(Long.class));
+        verify(userService, times(1)).delete(any(User.class));
     }
 
     @Test

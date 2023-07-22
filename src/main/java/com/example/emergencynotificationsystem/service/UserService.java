@@ -8,7 +8,7 @@ public interface UserService {
     User create(User user);
     User readById(long id);
     User update(User user);
-    void delete(long id);
+    void delete(User user);
     List<User> getAll();
     User readByContact(String contact);
 }

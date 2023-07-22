@@ -49,7 +49,7 @@ public class UserController {
 
     @DeleteMapping("/delete")
     public void deleteUser(@RequestBody UserRequest user) {
-        userService.delete(userService.readByContact(user.getContact()).getId());
+        userService.delete(userService.readByContact(user.getContact()));
     }
 
     @PutMapping("/edit")

@@ -2,17 +2,15 @@ package com.example.emergencynotificationsystem.model;
 
 import javax.persistence.*;
 
-import lombok.AllArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
-
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.validation.constraints.Pattern;
 
 @Getter @Setter @NoArgsConstructor
 @Entity
+@ToString
+@EqualsAndHashCode
 @Table(name = "users")
 public class User {
     @Id

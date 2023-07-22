@@ -39,8 +39,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void delete(long id) {
-        userRepository.delete(readById(id));
+    public void delete(User user) {
+        userRepository.delete(user);
     }
 
     @Override
@@ -51,7 +51,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User readByContact(String contact) {
-        return userRepository.findUserByContact(contact);
+        return userRepository.findUserByContact(contact).orElseThrow(
+                () -> new EntityNotFoundException("User with contact " + contact + " not found"));
     }
 
 }
