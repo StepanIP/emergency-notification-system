@@ -4,14 +4,12 @@ import com.example.emergencynotificationsystem.request.DataRequest;
 import com.example.emergencynotificationsystem.service.messageSending.email.EmailSenderService;
 import com.example.emergencynotificationsystem.service.messageSending.twilio.SmsSender;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
 public class DataRequestService {
 
     @Autowired
-    @Qualifier("twilio")
     private SmsSender smsSender;
 
     @Autowired

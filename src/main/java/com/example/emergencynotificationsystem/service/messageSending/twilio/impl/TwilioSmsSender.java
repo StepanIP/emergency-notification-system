@@ -12,14 +12,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-@Service("twilio")
+@Service
 public class TwilioSmsSender implements SmsSender {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TwilioSmsSender.class);
 
     private final TwilioConfiguration twilioConfiguration;
 
-    private final JavaMailSender mailSender;
+    public TwilioConfiguration getTwilioConfiguration() {
+        return twilioConfiguration;
+    }
 
     @Autowired
     EmailSenderService emailSenderService;
@@ -27,7 +29,6 @@ public class TwilioSmsSender implements SmsSender {
     @Autowired
     public TwilioSmsSender(TwilioConfiguration twilioConfiguration, JavaMailSender mailSender) {
         this.twilioConfiguration = twilioConfiguration;
-        this.mailSender = mailSender;
     }
 
     @Override
