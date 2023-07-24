@@ -5,6 +5,7 @@ import com.example.emergencynotificationsystem.model.Notification;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
@@ -15,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
+@ActiveProfiles("test")
 @Transactional
 public class NotificationServiceTest {
 
@@ -28,7 +30,7 @@ public class NotificationServiceTest {
         notification.setMessage("Test");
         List<Notification> before = notificationService.getAll();
 
-        Notification notification1 = notificationService.create(notification);
+        notificationService.create(notification);
 
         assertEquals(before.size()+1, notificationService.getAll().size());
         assertEquals(notification, notificationService.readByName(notification.getName()));
@@ -45,7 +47,7 @@ public class NotificationServiceTest {
         notification.setName("Test");
         notification.setMessage("Test");
 
-        Notification notification1 = notificationService.create(notification);
+        notificationService.create(notification);
 
         assertEquals(notification, notificationService.readById(notification.getId()));
     }
@@ -56,7 +58,7 @@ public class NotificationServiceTest {
         notification.setName("Test");
         notification.setMessage("Test");
 
-        Notification notification1 = notificationService.create(notification);
+        notificationService.create(notification);
 
         assertThrows(EntityNotFoundException.class, () -> notificationService.readById(notification.getId()+1));
     }
@@ -129,7 +131,7 @@ public class NotificationServiceTest {
         notification.setName("Test");
         notification.setMessage("Test");
 
-        Notification notification1 = notificationService.create(notification);
+        notificationService.create(notification);
 
         assertEquals(notification, notificationService.readByName(notification.getName()));
     }
@@ -140,7 +142,7 @@ public class NotificationServiceTest {
         notification.setName("Test");
         notification.setMessage("Test");
 
-        Notification notification1 = notificationService.create(notification);
+        notificationService.create(notification);
 
         assertThrows(EntityNotFoundException.class, () -> notificationService.readByName(notification.getName()+1));
     }

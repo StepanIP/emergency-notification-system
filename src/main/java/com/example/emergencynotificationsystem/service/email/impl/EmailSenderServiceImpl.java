@@ -18,8 +18,19 @@ public class EmailSenderServiceImpl implements EmailSenderService {
         this.mailConfiguration = mailConfiguration;
     }
 
+    public JavaMailSender getMailSender() {
+        return mailSender;
+    }
+
+    public MailConfiguration getMailConfiguration() {
+        return mailConfiguration;
+    }
+
     @Override
     public void sendEmail(String to, String subject, String message) {
+        if(mailConfiguration.getUsername()==null){
+            throw new NullPointerException("Error, Sender can not be null");
+        }
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
         simpleMailMessage.setFrom(mailConfiguration.getUsername());
         simpleMailMessage.setTo(to);
