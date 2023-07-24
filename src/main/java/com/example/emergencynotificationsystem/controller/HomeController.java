@@ -1,10 +1,10 @@
 package com.example.emergencynotificationsystem.controller;
 
 import com.example.emergencynotificationsystem.request.DataRequest;
+import com.example.emergencynotificationsystem.service.messageSending.DataRequestService;
 import com.example.emergencynotificationsystem.service.NotificationService;
 import com.example.emergencynotificationsystem.service.UserService;
-import com.example.emergencynotificationsystem.service.email.EmailSenderService;
-import com.example.emergencynotificationsystem.service.twilio.impl.SmsService;
+import com.example.emergencynotificationsystem.service.messageSending.email.EmailSenderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +18,7 @@ import java.util.Map;
 public class HomeController {
 
     @Autowired
-    SmsService service;
+    DataRequestService service;
 
     @Autowired
     NotificationService notificationService;
@@ -39,6 +39,6 @@ public class HomeController {
 
     @PostMapping
     public void sendMessage(@Valid @RequestBody DataRequest dataRequest) {
-        service.sendSms(dataRequest);
+        service.sendDataRequest(dataRequest);
     }
 }

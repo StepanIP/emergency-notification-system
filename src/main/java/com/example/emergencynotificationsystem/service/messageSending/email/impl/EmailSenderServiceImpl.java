@@ -1,7 +1,7 @@
-package com.example.emergencynotificationsystem.service.email.impl;
+package com.example.emergencynotificationsystem.service.messageSending.email.impl;
 
 import com.example.emergencynotificationsystem.configuration.email.MailConfiguration;
-import com.example.emergencynotificationsystem.service.email.EmailSenderService;
+import com.example.emergencynotificationsystem.service.messageSending.email.EmailSenderService;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;

@@ -1,7 +1,7 @@
 package com.example.emergencynotificationsystem.service;
 
 import com.example.emergencynotificationsystem.configuration.email.MailConfiguration;
-import com.example.emergencynotificationsystem.service.email.impl.EmailSenderServiceImpl;
+import com.example.emergencynotificationsystem.service.messageSending.email.impl.EmailSenderServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
