@@ -1,7 +1,9 @@
 package com.example.emergencynotificationsystem.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
@@ -9,6 +11,8 @@ import java.util.Arrays;
 import java.util.List;
 
 @Getter
+@NoArgsConstructor
+@EqualsAndHashCode
 public class DataRequest {
     List<String> contacts;
     @NotBlank String message;
@@ -22,7 +26,7 @@ public class DataRequest {
     @Override
     public String toString() {
         return "DataRequest{" +
-               "phoneNumber= ..." + '\'' +
+               "contacts=" + contacts +
                ", message='" + message + '\'' +
                '}';
     }
