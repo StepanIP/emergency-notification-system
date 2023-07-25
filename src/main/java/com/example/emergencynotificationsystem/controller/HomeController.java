@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,28 +20,34 @@ import java.util.Map;
 @RequestMapping("/ENS-Ukraine")
 public class HomeController {
 
-    @Autowired
-    DataRequestService service;
+    private static final Logger LOGGER = LoggerFactory.getLogger(HomeController.class);
 
     @Autowired
-    NotificationService notificationService;
+    private DataRequestService service;
 
     @Autowired
-    UserService userService;
+    private NotificationService notificationService;
 
     @Autowired
-    EmailSenderService emailSenderService;
+    private UserService userService;
+
+    @Autowired
+    private EmailSenderService emailSenderService;
 
     @GetMapping
     public ResponseEntity<?> home() {
+        LOGGER.info("Received request to get home data.");
         Map<String, Object> response = new HashMap<>();
         response.put("notifications", notificationService.getAll());
         response.put("users", userService.getAll());
+        LOGGER.debug("Sending response with home data: {}", response);
         return ResponseEntity.ok().body(response);
     }
 
     @PostMapping
     public void sendMessage(@Valid @RequestBody DataRequest dataRequest) {
+        LOGGER.info("Received a data request message: {}", dataRequest);
         service.sendDataRequest(dataRequest);
+        LOGGER.info("Data request message sent successfully.");
     }
 }
