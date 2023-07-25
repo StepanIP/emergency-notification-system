@@ -33,13 +33,17 @@ public class TwilioSmsSender implements SmsSender {
 
     @Override
     public void sendMessage(String phoneNumber, String message) {
+        LOGGER.info("Sending SMS to {}: {}", phoneNumber, message);
+
         if (isPhoneNumberValid(phoneNumber)) {
             PhoneNumber to = new PhoneNumber(phoneNumber);
             PhoneNumber from = new PhoneNumber(twilioConfiguration.getPhoneNumber());
             MessageCreator creator = Message.creator(to, from, message);
             creator.create();
-            LOGGER.info("Send sms to {}: {}", phoneNumber, message);
+
+            LOGGER.info("SMS sent successfully.");
         } else {
+            LOGGER.error("Invalid phone number: {}", phoneNumber);
             throw new IllegalArgumentException("Phone number [" + phoneNumber + "] is not a valid number");
         }
     }
