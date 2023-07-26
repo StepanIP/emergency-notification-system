@@ -4,15 +4,19 @@ import javax.persistence.*;
 
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.validation.constraints.Pattern;
+import java.util.Collection;
+import java.util.List;
 
 @Getter @Setter @NoArgsConstructor
 @Entity
 @ToString
 @EqualsAndHashCode
 @Table(name = "users")
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(generator = "sequence-generator")
     @GenericGenerator(
@@ -36,11 +40,52 @@ public class User {
     @Column(name = "surname", nullable = false)
     private String surname;
 
-    private String contact;
+//    @Pattern(regexp = "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}",
+//            message = "Invalid email format")
+    private String email;
 
-    public User(String name, String surname, String contact) {
+//    @Pattern(regexp = "(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,}",
+//            message = "Must be minimum 6 characters, at least one letter and one number")
+    private String password;
+
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
+
+    public User(String name, String surname, String email, String password) {
         this.name = name;
         this.surname = surname;
-        this.contact = contact;
+        this.email = email;
+        this.password = password;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(role);
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }
