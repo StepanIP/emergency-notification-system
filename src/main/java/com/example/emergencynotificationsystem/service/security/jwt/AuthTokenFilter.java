@@ -2,6 +2,8 @@ package com.example.emergencynotificationsystem.service.security.jwt;
 
 import com.example.emergencynotificationsystem.configuration.jwt.JwtUtils;
 import com.example.emergencynotificationsystem.service.security.UserDetailsServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,8 +20,11 @@ import java.io.IOException;
 
 public class AuthTokenFilter extends OncePerRequestFilter {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuthTokenFilter.class.getName());
+
     @Autowired
     private JwtUtils jwtUtils;
+
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
@@ -28,15 +33,20 @@ public class AuthTokenFilter extends OncePerRequestFilter {
                                     FilterChain filterChain)
             throws ServletException, IOException {
         if (!hasAuthorizationBearer(httpServletRequest)) {
+            LOGGER.info("Request does not have Authorization header with Bearer token. Proceeding without authentication.");
             filterChain.doFilter(httpServletRequest, httpServletResponse);
             return;
         }
+
         String token = getAccessToken(httpServletRequest);
         if (!jwtUtils.validateJwtToken(token)) {
+            LOGGER.warn("Invalid or expired token. Proceeding without authentication.");
             filterChain.doFilter(httpServletRequest, httpServletResponse);
             return;
         }
+
         setAuthenticationContext(token, httpServletRequest);
+        LOGGER.info("User successfully authenticated. Proceeding with the request.");
         filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
 
@@ -66,5 +76,4 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         String header = request.getHeader("Authorization");
         return header.split(" ")[1].trim();
     }
-
 }
