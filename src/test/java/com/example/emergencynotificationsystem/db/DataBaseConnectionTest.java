@@ -1,11 +1,12 @@
 package com.example.emergencynotificationsystem.db;
 
-import com.example.emergencynotificationsystem.model.User;
+import com.example.emergencynotificationsystem.model.Contact;
+import com.example.emergencynotificationsystem.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import com.example.emergencynotificationsystem.repository.UserRepository;
+import com.example.emergencynotificationsystem.repository.ContactRepository;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,25 +20,25 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 public class DataBaseConnectionTest {
 
     @Autowired
+    ContactRepository contactRepository;
+
+    @Autowired
     UserRepository userRepository;
 
     @Test
     @Transactional
-    void testCreateUser(){
-        User user = new User();
-        user.setName("Test");
-        user.setSurname("Test");
-        user.setContact("myGmail@gmail.com");
+    void testCreateContact(){
+        Contact contact = new Contact();
+        contact.setContact("myGmail@gmail.com");
+        contact.setOwner(userRepository.findByEmail("mike@mail.com"));
 
-        int beforeSize = userRepository.findAll().size();
+        int beforeSize = contactRepository.findAll().size();
 
-        userRepository.save(user);
-        Optional<User> actual = userRepository.findUserByContact(user.getContact());
+        contactRepository.save(contact);
+        Optional<Contact> actual = contactRepository.findUserByContact(contact.getContact());
 
-        assertEquals(user.getName(), actual.get().getName());
-        assertEquals(user.getSurname(), actual.get().getSurname());
-        assertEquals(user.getContact(), actual.get().getContact());
-        assertNotEquals(beforeSize, userRepository.findAll().size());
+        assertEquals(contact.getContact(), actual.get().getContact());
+        assertNotEquals(beforeSize, contactRepository.findAll().size());
     }
 
 }
