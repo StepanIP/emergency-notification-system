@@ -77,13 +77,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User readByContact(String contact) {
-        LOGGER.info("Fetching user by contact: {}", contact);
-        return userRepository.findUserByContact(contact).orElseThrow(
-                () -> {
-                    LOGGER.error("User with contact {} not found", contact);
-                    return new EntityNotFoundException("User with contact " + contact + " not found");
-                }
-        );
+    public User readByEmail(String email) {
+        LOGGER.info("Fetching user by email: {}", email);
+        User user = userRepository.findByEmail(email);
+        if (user == null) {
+            LOGGER.error("User with email {} not found", email);
+            throw new EntityNotFoundException("User with email " + email + " not found");
+        }
+        return user;
     }
+
 }

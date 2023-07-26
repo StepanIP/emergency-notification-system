@@ -1,8 +1,8 @@
 package com.example.emergencynotificationsystem.controller;
 
-import com.example.emergencynotificationsystem.model.User;
+import com.example.emergencynotificationsystem.model.Contact;
 import com.example.emergencynotificationsystem.request.UserRequest;
-import com.example.emergencynotificationsystem.service.UserService;
+import com.example.emergencynotificationsystem.service.ContactService;
 import lombok.SneakyThrows;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -24,7 +24,7 @@ public class UserController {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
-    UserService userService;
+    ContactService contactService;
 
     @SneakyThrows
     @PostMapping("/add")
@@ -37,15 +37,11 @@ public class UserController {
                 Sheet sheet = workbook.getSheetAt(0);
 
                 for (Row row : sheet) {
-                    String firstName = row.getCell(0).getStringCellValue();
-                    String lastName = row.getCell(1).getStringCellValue();
-                    String contact = row.getCell(2).getStringCellValue();
+                    String contact = row.getCell(0).getStringCellValue();
 
-                    User user = new User();
-                    user.setName(firstName);
-                    user.setSurname(lastName);
-                    user.setContact(contact);
-                    userService.create(user);
+                    Contact contact1 = new Contact();
+                    contact1.setContact(contact);
+                    contactService.create(contact1);
                 }
             }
             LOGGER.info("Users added successfully.");
@@ -58,15 +54,15 @@ public class UserController {
     @DeleteMapping("/delete")
     public void deleteUser(@RequestBody UserRequest user) {
         LOGGER.info("Received request to delete user with contact: {}", user.getContact());
-        userService.delete(userService.readByContact(user.getContact()));
-        LOGGER.info("User deleted successfully.");
+        contactService.delete(contactService.readByContact(user.getContact()));
+        LOGGER.info("Contact deleted successfully.");
     }
 
     @PutMapping("/edit")
     public void editUser(@RequestBody UserRequest user) {
         LOGGER.info("Received request to edit user with contact: {}", user.getContact());
-        userService.update(userService.readByContact(user.getContact()));
-        LOGGER.info("User edited successfully.");
+        contactService.update(contactService.readByContact(user.getContact()));
+        LOGGER.info("Contact edited successfully.");
     }
 }
 

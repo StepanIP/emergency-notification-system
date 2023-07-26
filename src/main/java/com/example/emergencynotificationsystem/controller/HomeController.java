@@ -3,7 +3,7 @@ package com.example.emergencynotificationsystem.controller;
 import com.example.emergencynotificationsystem.request.DataRequest;
 import com.example.emergencynotificationsystem.service.messageSending.DataRequestService;
 import com.example.emergencynotificationsystem.service.NotificationService;
-import com.example.emergencynotificationsystem.service.UserService;
+import com.example.emergencynotificationsystem.service.ContactService;
 import com.example.emergencynotificationsystem.service.messageSending.email.EmailSenderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +29,7 @@ public class HomeController {
     private NotificationService notificationService;
 
     @Autowired
-    private UserService userService;
+    private ContactService contactService;
 
     @Autowired
     private EmailSenderService emailSenderService;
@@ -39,7 +39,7 @@ public class HomeController {
         LOGGER.info("Received request to get home data.");
         Map<String, Object> response = new HashMap<>();
         response.put("notifications", notificationService.getAll());
-        response.put("users", userService.getAll());
+        response.put("users", contactService.getAll());
         LOGGER.debug("Sending response with home data: {}", response);
         return ResponseEntity.ok().body(response);
     }

@@ -5,10 +5,10 @@ import com.example.emergencynotificationsystem.model.User;
 import java.util.List;
 
 public interface UserService {
-    User create(User user);
+    User create(User contact);
     User readById(long id);
-    User update(User user);
-    void delete(User user);
+    User update(User contact);
+    void delete(User contact);
     List<User> getAll();
-    User readByContact(String contact);
+    User readByEmail(String contact);
 }
