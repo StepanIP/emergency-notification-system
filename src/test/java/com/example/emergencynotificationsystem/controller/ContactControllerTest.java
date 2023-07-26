@@ -1,8 +1,8 @@
 package com.example.emergencynotificationsystem.controller;
 
-import com.example.emergencynotificationsystem.model.User;
+import com.example.emergencynotificationsystem.model.Contact;
 import com.example.emergencynotificationsystem.request.UserRequest;
-import com.example.emergencynotificationsystem.service.UserService;
+import com.example.emergencynotificationsystem.service.ContactService;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -15,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,15 +32,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
 @Transactional
-public class UserControllerTest {
+public class ContactControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private UserService userService;
+    private ContactService contactService;
 
     @Test
+    @WithMockUser(username = "mike@mail.com", password = "1111", roles = "USER")
     public void testAddUsers_ValidFile() throws Exception {
         File tempFile = createTempExcelFile();
 
@@ -52,36 +54,38 @@ public class UserControllerTest {
                     .andExpect(status().isOk())
                     .andReturn();
 
-            verify(userService, times(3)).create(any(User.class));
+            verify(contactService, times(3)).create(any(Contact.class));
         }
     }
 
     @Test
+    @WithMockUser(username = "mike@mail.com", password = "1111", roles = "USER")
     void testDeleteUser() throws Exception {
         UserRequest userRequest = new UserRequest("John", "Doe", "12345");
 
-        when(userService.readByContact(userRequest.getContact())).thenReturn(new User());
+        when(contactService.readByContact(userRequest.getContact())).thenReturn(new Contact());
 
         mockMvc.perform(delete("/ENS-Ukraine/user/delete")
                         .content(asJsonString(userRequest))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
-        verify(userService, times(1)).delete(any(User.class));
+        verify(contactService, times(1)).delete(any(Contact.class));
     }
 
     @Test
+    @WithMockUser(username = "mike@mail.com", password = "1111", roles = "USER")
     void testEditUser() throws Exception {
         UserRequest userRequest = new UserRequest("John", "Doe", "12345");
 
-        when(userService.readByContact(userRequest.getContact())).thenReturn(new User());
+        when(contactService.readByContact(userRequest.getContact())).thenReturn(new Contact());
 
         mockMvc.perform(put("/ENS-Ukraine/user/edit")
                         .content(asJsonString(userRequest))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
-        verify(userService, times(1)).update(any(User.class));
+        verify(contactService, times(1)).update(any(Contact.class));
     }
 
     private File createTempExcelFile() throws Exception {

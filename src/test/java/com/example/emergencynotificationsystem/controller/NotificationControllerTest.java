@@ -1,8 +1,10 @@
 package com.example.emergencynotificationsystem.controller;
 
+import com.example.emergencynotificationsystem.configuration.jwt.JwtUtils;
 import com.example.emergencynotificationsystem.model.Notification;
 import com.example.emergencynotificationsystem.request.NotificationRequest;
 import com.example.emergencynotificationsystem.service.NotificationService;
+import com.example.emergencynotificationsystem.service.UserService;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,8 +31,15 @@ public class NotificationControllerTest extends ControllerTestClass{
     @MockBean
     NotificationService notificationService;
 
+    @Autowired
+    private JwtUtils jwtUtils;
+
+    @Autowired
+    private UserService userService;
+
     @Test
     @SneakyThrows
+    @WithMockUser(username = "mike@mail.com", password = "1111", roles = "USER")
     void createNotification() {
         NotificationRequest request = new NotificationRequest("test", "This is test");
 
@@ -43,6 +53,7 @@ public class NotificationControllerTest extends ControllerTestClass{
 
     @Test
     @SneakyThrows
+    @WithMockUser(username = "mike@mail.com", password = "1111", roles = "USER")
     void testDeleteUser() {
         NotificationRequest request = new NotificationRequest("test", "This is test");
 
@@ -58,6 +69,7 @@ public class NotificationControllerTest extends ControllerTestClass{
 
     @Test
     @SneakyThrows
+    @WithMockUser(username = "mike@mail.com", password = "1111", roles = "USER")
     void testEditUser() {
         NotificationRequest request = new NotificationRequest("test", "This is test");
 
