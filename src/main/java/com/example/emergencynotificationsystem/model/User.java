@@ -40,8 +40,8 @@ public class User implements UserDetails {
     @Column(name = "surname", nullable = false)
     private String surname;
 
-//    @Pattern(regexp = "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}",
-//            message = "Invalid email format")
+    @Pattern(regexp = "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}",
+            message = "Invalid email format")
     private String email;
 
 //    @Pattern(regexp = "(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,}",
@@ -52,11 +52,12 @@ public class User implements UserDetails {
     @JoinColumn(name = "role_id")
     private Role role;
 
-    public User(String name, String surname, String email, String password) {
+    public User(String name, String surname, String email, String password, Role role) {
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.password = password;
+        this.role = role;
     }
 
     @Override
@@ -85,7 +86,7 @@ public class User implements UserDetails {
     }
 
     @Override
-    public boolean isEnabled() {
+    public boolean isEnabled()   {
         return true;
     }
 }
