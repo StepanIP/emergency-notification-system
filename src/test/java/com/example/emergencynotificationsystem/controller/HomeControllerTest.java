@@ -53,7 +53,7 @@ public class HomeControllerTest extends ControllerTestClass{
     UserService userService;
 
     @Test
-    @WithMockUser(username = "mike@mail.com", password = "1111", roles = "USER")
+    @WithMockUser(username = "test@gmail.com", password = "5b2h1k", roles = "USER")
     public void homeControllerTest_Get() throws Exception {
         List<Notification> notifications = Arrays.asList(
                 new Notification("1", "Notification 1"),
@@ -78,7 +78,7 @@ public class HomeControllerTest extends ControllerTestClass{
     }
 
     @Test
-    @WithMockUser(username = "mike@mail.com", password = "1111", roles = "USER")
+    @WithMockUser(username = "test@gmail.com", password = "5b2h1k", roles = "USER")
     public void sendMessageSuccessful_Post() throws Exception {
         DataRequest validDataRequest = new DataRequest("scrupnichuk@gmail.com", "Test");
 
@@ -96,7 +96,7 @@ public class HomeControllerTest extends ControllerTestClass{
     }
 
     @Test
-    @WithMockUser(username = "mike@mail.com", password = "1111", roles = "USER")
+    @WithMockUser(username = "test@gmail.com", password = "5b2h1k", roles = "USER")
     public void sendMessageServerError_Post() throws Exception {
         DataRequest invalidDataRequest = new DataRequest();
 

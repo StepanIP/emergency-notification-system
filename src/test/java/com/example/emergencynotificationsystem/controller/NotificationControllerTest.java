@@ -39,7 +39,7 @@ public class NotificationControllerTest extends ControllerTestClass{
 
     @Test
     @SneakyThrows
-    @WithMockUser(username = "mike@mail.com", password = "1111", roles = "USER")
+    @WithMockUser(username = "test@gmail.com", password = "5b2h1k", roles = "USER")
     void createNotification() {
         NotificationRequest request = new NotificationRequest("test", "This is test");
 
@@ -53,7 +53,7 @@ public class NotificationControllerTest extends ControllerTestClass{
 
     @Test
     @SneakyThrows
-    @WithMockUser(username = "mike@mail.com", password = "1111", roles = "USER")
+    @WithMockUser(username = "test@gmail.com", password = "5b2h1k", roles = "USER")
     void testDeleteUser() {
         NotificationRequest request = new NotificationRequest("test", "This is test");
 
@@ -69,7 +69,7 @@ public class NotificationControllerTest extends ControllerTestClass{
 
     @Test
     @SneakyThrows
-    @WithMockUser(username = "mike@mail.com", password = "1111", roles = "USER")
+    @WithMockUser(username = "test@gmail.com", password = "5b2h1k", roles = "USER")
     void testEditUser() {
         NotificationRequest request = new NotificationRequest("test", "This is test");
 

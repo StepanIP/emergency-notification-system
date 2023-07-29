@@ -1,7 +1,11 @@
 package com.example.emergencynotificationsystem.db;
 
 import com.example.emergencynotificationsystem.model.Contact;
+import com.example.emergencynotificationsystem.model.Role;
+import com.example.emergencynotificationsystem.model.User;
+import com.example.emergencynotificationsystem.repository.RoleRepository;
 import com.example.emergencynotificationsystem.repository.UserRepository;
+import com.example.emergencynotificationsystem.service.RoleService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +29,21 @@ public class DataBaseConnectionTest {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    RoleRepository roleRepository;
+
     @Test
     @Transactional
     void testCreateContact(){
+        Role role = new Role();
+        role.setName("TEST");
+        roleRepository.save(role);
+        User user = new User("Test","Test","test@gmail.com", "5b2h1k" ,roleRepository.findById(role.getId()).get());
+        userRepository.save(user);
+
         Contact contact = new Contact();
         contact.setContact("myGmail@gmail.com");
-        contact.setOwner(userRepository.findByEmail("mike@mail.com"));
+        contact.setOwner(user);
 
         int beforeSize = contactRepository.findAll().size();
 

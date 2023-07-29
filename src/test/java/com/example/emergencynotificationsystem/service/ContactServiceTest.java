@@ -2,6 +2,11 @@ package com.example.emergencynotificationsystem.service;
 
 import com.example.emergencynotificationsystem.exception.NullEntityReferenceException;
 import com.example.emergencynotificationsystem.model.Contact;
+import com.example.emergencynotificationsystem.model.Role;
+import com.example.emergencynotificationsystem.model.User;
+import com.example.emergencynotificationsystem.request.UserRequest;
+import lombok.SneakyThrows;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,11 +30,32 @@ public class ContactServiceTest {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private RoleService roleService;
+
+    User user;
+
+    @BeforeEach
+    public void prepareUser(){
+        Role role = new Role();
+        role.setName("USER");
+        roleService.create(role);
+
+        user = new User();
+        user.setName("John");
+        user.setSurname("Doe");
+        user.setEmail("john.doe@example.com");
+        user.setPassword("5b2h1k");
+        user.setRole(role);
+
+        userService.create(user);
+    }
+
     @Test
     public void createNotificationTest(){
         Contact contact = new Contact();
         contact.setContact("test@gmail.com");
-        contact.setOwner(userService.readById(1));
+        contact.setOwner(userService.readById(user.getId()));
 
         List<Contact> before = contactService.getAll();
 
@@ -47,7 +73,7 @@ public class ContactServiceTest {
     @Test
     public void readByIdNotificationTest(){
         Contact contact = new Contact();
-        contact.setOwner(userService.readById(1));
+        contact.setOwner(userService.readById(user.getId()));
         contact.setContact("test@gmail.com");
 
         Contact contact1 = contactService.create(contact);
@@ -58,7 +84,7 @@ public class ContactServiceTest {
     @Test
     public void readByIdNotificationExceptionTest(){
         Contact contact = new Contact();
-        contact.setOwner(userService.readById(1));
+        contact.setOwner(userService.readById(user.getId()));
         contact.setContact("test@gmail.com");
 
         Contact contact1 = contactService.create(contact);
@@ -69,13 +95,13 @@ public class ContactServiceTest {
     @Test
     public void updateNotificationTest(){
         Contact contact = new Contact();
-        contact.setOwner(userService.readById(1));
+        contact.setOwner(userService.readById(user.getId()));
         contact.setContact("test@gmail.com");
 
         Contact contact1 = contactService.create(contact);
 
         Contact updateContact = contactService.readById(contact.getId());
-        updateContact.setOwner(userService.readById(2));
+        updateContact.setOwner(userService.readById(user.getId()));
         updateContact.setContact("new@gmail.com");
 
         contactService.update(updateContact);
@@ -91,7 +117,7 @@ public class ContactServiceTest {
     @Test
     public void deleteNotificationTest(){
         Contact contact = new Contact();
-        contact.setOwner(userService.readById(1));
+        contact.setOwner(userService.readById(user.getId()));
         contact.setContact("test@gmail.com");
 
         contactService.create(contact);
@@ -107,12 +133,12 @@ public class ContactServiceTest {
     public void getAllNotificationsTest(){
         List<Contact> expected = new ArrayList<>();
         Contact contact = new Contact();
-        contact.setOwner(userService.readById(1));
+        contact.setOwner(userService.readById(user.getId()));
         contact.setContact("test@gmail.com");
         expected.add(contact);
 
         Contact contact1 = new Contact();
-        contact1.setOwner(userService.readById(2));
+        contact1.setOwner(userService.readById(user.getId()));
         contact1.setContact("testtwo@gmail.com");
         expected.add(contact1);
 
@@ -131,7 +157,7 @@ public class ContactServiceTest {
     @Test
     public void readByNameNotificationTest(){
         Contact contact = new Contact();
-        contact.setOwner(userService.readById(1));
+        contact.setOwner(userService.readById(user.getId()));
         contact.setContact("test@gmail.com");
 
         contactService.create(contact);
@@ -142,7 +168,7 @@ public class ContactServiceTest {
     @Test
     public void readByNameNotificationExceptionTest(){
         Contact contact = new Contact();
-        contact.setOwner(userService.readById(1));
+        contact.setOwner(userService.readById(user.getId()));
         contact.setContact("test@gmail.com");
 
         contactService.create(contact);

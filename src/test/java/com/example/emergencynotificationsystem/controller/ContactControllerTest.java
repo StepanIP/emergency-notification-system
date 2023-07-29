@@ -1,8 +1,9 @@
 package com.example.emergencynotificationsystem.controller;
 
 import com.example.emergencynotificationsystem.model.Contact;
-import com.example.emergencynotificationsystem.request.UserRequest;
+import com.example.emergencynotificationsystem.request.ContactRequest;
 import com.example.emergencynotificationsystem.service.ContactService;
+import com.example.emergencynotificationsystem.service.UserService;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -23,7 +24,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.*;
 import java.nio.file.Files;
 
-import static com.example.emergencynotificationsystem.controller.ControllerTestClass.asJsonString;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -32,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
 @Transactional
-public class ContactControllerTest {
+public class ContactControllerTest extends ControllerTestClass{
 
     @Autowired
     private MockMvc mockMvc;
@@ -40,16 +40,19 @@ public class ContactControllerTest {
     @MockBean
     private ContactService contactService;
 
+    @Autowired
+    UserService userService;
+
     @Test
-    @WithMockUser(username = "mike@mail.com", password = "1111", roles = "USER")
-    public void testAddUsers_ValidFile() throws Exception {
+    @WithMockUser(username = "test@gmail.com", password = "5b2h1k", roles = "USER")
+    public void testAddContacts_ValidFile() throws Exception {
         File tempFile = createTempExcelFile();
 
         try (InputStream inputStream = Files.newInputStream(tempFile.toPath())) {
             MockMultipartFile file = new MockMultipartFile("file", "users.xlsx",
                     MediaType.MULTIPART_FORM_DATA_VALUE, inputStream);
 
-            MvcResult result = mockMvc.perform(multipart("/ENS-Ukraine/user/add")
+            MvcResult result = mockMvc.perform(multipart("/ENS-Ukraine/contact/add")
                             .file(file))
                     .andExpect(status().isOk())
                     .andReturn();
@@ -59,14 +62,14 @@ public class ContactControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "mike@mail.com", password = "1111", roles = "USER")
-    void testDeleteUser() throws Exception {
-        UserRequest userRequest = new UserRequest("John", "Doe", "12345");
+    @WithMockUser(username = "test@gmail.com", password = "5b2h1k", roles = "USER")
+    void testDeleteContact() throws Exception {
+        ContactRequest contactRequest = new ContactRequest("12345");
 
-        when(contactService.readByContact(userRequest.getContact())).thenReturn(new Contact());
+        when(contactService.readByContact(contactRequest.getContact())).thenReturn(new Contact());
 
-        mockMvc.perform(delete("/ENS-Ukraine/user/delete")
-                        .content(asJsonString(userRequest))
+        mockMvc.perform(delete("/ENS-Ukraine/contact/delete")
+                        .content(asJsonString(contactRequest))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
@@ -74,14 +77,14 @@ public class ContactControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "mike@mail.com", password = "1111", roles = "USER")
-    void testEditUser() throws Exception {
-        UserRequest userRequest = new UserRequest("John", "Doe", "12345");
+    @WithMockUser(username = "test@gmail.com", password = "5b2h1k", roles = "USER")
+    void testEditContact() throws Exception {
+        ContactRequest contactRequest = new ContactRequest("12345");
 
-        when(contactService.readByContact(userRequest.getContact())).thenReturn(new Contact());
+        when(contactService.readByContact(contactRequest.getContact())).thenReturn(new Contact());
 
-        mockMvc.perform(put("/ENS-Ukraine/user/edit")
-                        .content(asJsonString(userRequest))
+        mockMvc.perform(put("/ENS-Ukraine/contact/edit")
+                        .content(asJsonString(contactRequest))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
@@ -89,34 +92,22 @@ public class ContactControllerTest {
     }
 
     private File createTempExcelFile() throws Exception {
-        File tempFile = File.createTempFile("users", ".xlsx");
+        File tempFile = File.createTempFile("file", ".xlsx");
         try (FileOutputStream fileOutputStream = new FileOutputStream(tempFile)) {
             Workbook workbook = new XSSFWorkbook();
             Sheet sheet = workbook.createSheet("Users");
 
             Row headerRow = sheet.createRow(0);
             Cell headerCell1 = headerRow.createCell(0);
-            headerCell1.setCellValue("First Name");
-            Cell headerCell2 = headerRow.createCell(1);
-            headerCell2.setCellValue("Last Name");
-            Cell headerCell3 = headerRow.createCell(2);
-            headerCell3.setCellValue("Email");
+            headerCell1.setCellValue("Email");
 
             Row row1 = sheet.createRow(1);
             Cell cell1 = row1.createCell(0);
-            cell1.setCellValue("John");
-            Cell cell2 = row1.createCell(1);
-            cell2.setCellValue("Doe");
-            Cell cell3 = row1.createCell(2);
-            cell3.setCellValue("john.doe@example.com");
+            cell1.setCellValue("john.doe@example.com");
 
             Row row2 = sheet.createRow(2);
             Cell cell4 = row2.createCell(0);
-            cell4.setCellValue("Jane");
-            Cell cell5 = row2.createCell(1);
-            cell5.setCellValue("Smith");
-            Cell cell6 = row2.createCell(2);
-            cell6.setCellValue("jane.smith@example.com");
+            cell4.setCellValue("jane.smith@example.com");
 
             workbook.write(fileOutputStream);
         }
