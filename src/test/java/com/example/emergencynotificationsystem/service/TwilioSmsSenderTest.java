@@ -2,16 +2,28 @@ package com.example.emergencynotificationsystem.service;
 
 import com.example.emergencynotificationsystem.configuration.twilio.TwilioConfiguration;
 import com.example.emergencynotificationsystem.service.messageSending.twilio.impl.TwilioSmsSender;
+import com.twilio.type.PhoneNumber;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import com.twilio.rest.api.v2010.account.MessageCreator;
 import org.springframework.mail.javamail.JavaMailSender;
 import javax.mail.internet.MimeMessage;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -32,8 +44,13 @@ public class TwilioSmsSenderTest {
     @Mock
     private MimeMessage mimeMessage;
 
+    @Mock
+    private MessageCreator messageCreator;
+
     @InjectMocks
     private TwilioSmsSender twilioSmsSender;
+
+    private static final Logger logger = LoggerFactory.getLogger(TwilioSmsSender.class);
 
     @Test
     public void testSendMessage_ValidPhoneNumber_Successful() {
@@ -59,6 +76,20 @@ public class TwilioSmsSenderTest {
 
         String expectedMessage = "Phone number [" + INVALID_PHONE_NUMBER + "] is not a valid number";
         String actualMessage = exception.getMessage();
-        org.junit.jupiter.api.Assertions.assertTrue(actualMessage.contains(expectedMessage));
+        assertTrue(actualMessage.contains(expectedMessage));
+    }
+
+    @Test
+    public void testIsPhoneNumberValid_ValidPhoneNumbers_ReturnsTrue() {
+        assertTrue(twilioSmsSender.isPhoneNumberValid("+380681918275"));
+        assertTrue(twilioSmsSender.isPhoneNumberValid("+123456789012"));
+    }
+
+    @Test
+    public void testIsPhoneNumberValid_InvalidPhoneNumbers_ReturnsFalse() {
+        assertFalse(twilioSmsSender.isPhoneNumberValid("invalid_number"));
+        assertFalse(twilioSmsSender.isPhoneNumberValid("12345"));
+        assertFalse(twilioSmsSender.isPhoneNumberValid(""));
+        assertFalse(twilioSmsSender.isPhoneNumberValid(null));
     }
 }

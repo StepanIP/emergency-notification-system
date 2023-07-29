@@ -1,7 +1,6 @@
 package com.example.emergencynotificationsystem.controller;
 
 import com.example.emergencynotificationsystem.model.User;
-import com.example.emergencynotificationsystem.request.NotificationRequest;
 import com.example.emergencynotificationsystem.request.UserRequest;
 import com.example.emergencynotificationsystem.service.RoleService;
 import com.example.emergencynotificationsystem.transformer.UserTransformer;
@@ -17,7 +16,6 @@ public class UserController {
     private final UserService userService;
     private final RoleService roleService;
     private final PasswordEncoder passwordEncoder;
-
     private static final Logger LOGGER = LoggerFactory.getLogger(NotificationController.class);
 
     public UserController(UserService userService, RoleService roleService, PasswordEncoder passwordEncoder) {

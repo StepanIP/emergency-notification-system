@@ -27,7 +27,7 @@ import java.nio.file.Files;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
@@ -90,6 +90,39 @@ public class ContactControllerTest extends ControllerTestClass{
 
         verify(contactService, times(1)).update(any(Contact.class));
     }
+
+    @Test
+    @WithMockUser(username = "test@gmail.com", password = "5b2h1k", roles = "USER")
+    public void testAddContacts_InvalidFileFormat() throws Exception {
+        File tempFile = File.createTempFile("file", ".txt");
+        try (InputStream inputStream = Files.newInputStream(tempFile.toPath())) {
+            MockMultipartFile file = new MockMultipartFile("file", "users.txt",
+                    MediaType.MULTIPART_FORM_DATA_VALUE, inputStream);
+
+            mockMvc.perform(multipart("/ENS-Ukraine/contact/add")
+                            .file(file))
+                    .andExpect(status().isBadRequest())
+                    .andExpect(view().name("error"))
+                    .andExpect(model().attribute("code", "400 / Bad Request"))
+                    .andExpect(model().attribute("message", "Invalid file or format."));
+        }
+    }
+
+
+    @Test
+    @WithMockUser(username = "test@gmail.com", password = "5b2h1k", roles = "USER")
+    public void testAddContacts_EmptyFile() throws Exception {
+        MockMultipartFile file = new MockMultipartFile("file", "empty.xlsx",
+                MediaType.MULTIPART_FORM_DATA_VALUE, new byte[0]);
+
+        mockMvc.perform(multipart("/ENS-Ukraine/contact/add")
+                        .file(file))
+                .andExpect(status().isBadRequest())
+                .andExpect(view().name("error"))
+                .andExpect(model().attribute("code", "400 / Bad Request"))
+                .andExpect(model().attribute("message", "Invalid file or format."));
+    }
+
 
     private File createTempExcelFile() throws Exception {
         File tempFile = File.createTempFile("file", ".xlsx");

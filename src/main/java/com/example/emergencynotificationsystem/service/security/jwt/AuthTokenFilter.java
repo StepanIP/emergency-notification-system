@@ -29,8 +29,8 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     private UserDetailsServiceImpl userDetailsService;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
-                                    FilterChain filterChain)
+    public void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
+                                 FilterChain filterChain)
             throws ServletException, IOException {
         if (!hasAuthorizationBearer(httpServletRequest)) {
             LOGGER.info("Request does not have Authorization header with Bearer token. Proceeding without authentication.");
